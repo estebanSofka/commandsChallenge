@@ -1,0 +1,25 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: "commands"
+  devtools:
+    add-properties: false
+  h2:
+    console:
+      enabled: true
+      path: "/h2"
+  profiles:
+    include: null
+  data:
+    mongodb:
+      uri: "mongodb+srv://admin:ZUZ0Yetli6U2RBnO@cluster0.ysm0y.mongodb.net/commands?retryWrites=true&w=majority"
+  rabbitmq:
+    host: "chimpanzee.rmq.cloudamqp.com"
+    password: "TwvM99SI7FWfsnsC1VXZds9G-yL8DtgS"
+    username: "ondiqfmh"
+    virtual_host: "ondiqfmh"
+adapter:
+  restconsumer:
+    timeout: 5000
+    url: "http://localhost:8080"
