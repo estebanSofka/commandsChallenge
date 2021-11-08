@@ -25,11 +25,13 @@ public class Job extends AggregateRoot {
     protected String body;
     protected int correctExecutions;
     protected int incorrectExecutions;
+    protected String email;
+    protected boolean emailNotify;
 
     public Job(String jobId, String name, String url, String cronExpression,
-               boolean active, Date startDate, String method) {
+               boolean active, Date startDate, String method, String email, boolean emailNotify) {
         super(jobId);
-        appendChange(new JobCreated(name, url, cronExpression, active, startDate, method)).apply();
+        appendChange(new JobCreated(name, url, cronExpression, active, startDate, method, email, emailNotify)).apply();
         subscribe(new JobEventChange(this));
     }
 
@@ -92,4 +94,19 @@ public class Job extends AggregateRoot {
         return body;
     }
 
+    public int correctExecutions() {
+        return correctExecutions;
+    }
+
+    public int incorrectExecutions() {
+        return incorrectExecutions;
+    }
+
+    public String email() {
+        return email;
+    }
+
+    public boolean emailNotify() {
+        return emailNotify;
+    }
 }

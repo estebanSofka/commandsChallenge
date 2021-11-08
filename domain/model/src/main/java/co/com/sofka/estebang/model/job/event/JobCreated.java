@@ -12,8 +12,10 @@ public class JobCreated extends DomainEvent {
     private boolean active;
     private Date startDate;
     private String method;
+    private String email;
+    private boolean emailNotify;
 
-    public JobCreated(String name, String url, String cronExpression, boolean active, Date startDate, String method) {
+    public JobCreated(String name, String url, String cronExpression, boolean active, Date startDate, String method, String email, boolean emailNotify) {
         super("estebang.job.jobcreated");
         this.name = name;
         this.url = url;
@@ -21,6 +23,8 @@ public class JobCreated extends DomainEvent {
         this.active = active;
         this.startDate = startDate;
         this.method = method;
+        this.emailNotify = emailNotify;
+        this.email = email;
     }
 
     public String getName() {
@@ -45,5 +49,13 @@ public class JobCreated extends DomainEvent {
 
     public String getMethod() {
         return method;
+    }
+
+    public boolean isEmailNotify() {
+        return emailNotify;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }

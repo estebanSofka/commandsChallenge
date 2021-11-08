@@ -14,7 +14,7 @@ public class CreateJobUseCase implements Function<CreateJobCommand, Flux<DomainE
         var job = new Job(command.getJobId(), command.getName(),
                 command.getUrl(), command.getCronExpression(),
                 command.isActive(), command.getStartDate(),
-                command.getMethod());
+                command.getMethod(), command.getEmail(), command.isEmailNotify());
         return Flux.fromIterable(job.getUncommittedChanges());
     }
 }

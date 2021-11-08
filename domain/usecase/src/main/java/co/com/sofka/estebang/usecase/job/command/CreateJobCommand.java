@@ -12,6 +12,8 @@ public class CreateJobCommand extends Command {
     private boolean active;
     private Date startDate;
     private String method;
+    private String email;
+    private boolean emailNotify;
 
     public CreateJobCommand() {
     }
@@ -42,5 +44,13 @@ public class CreateJobCommand extends Command {
 
     public String getMethod() {
         return method;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public boolean isEmailNotify() {
+        return emailNotify;
     }
 }

@@ -4,6 +4,7 @@ import co.com.sofka.estebang.model.generic.DomainEvent;
 import co.com.sofka.estebang.model.job.Job;
 import co.com.sofka.estebang.model.job.repository.EventStoreRepository;
 import co.com.sofka.estebang.model.job.repository.JobExecutorRepository;
+import co.com.sofka.estebang.model.job.repository.NotificationRepository;
 import co.com.sofka.estebang.usecase.job.command.ExecuteJobCommand;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
@@ -16,6 +17,7 @@ public class ExecuteJobUseCase implements Function<ExecuteJobCommand, Flux<Domai
 
     private final EventStoreRepository repository;
     private final JobExecutorRepository jobExecutorRepository;
+    private final NotificationRepository notificationRepository;
 
     @Override
     public Flux<DomainEvent> apply(ExecuteJobCommand command) {
@@ -29,7 +31,8 @@ public class ExecuteJobUseCase implements Function<ExecuteJobCommand, Flux<Domai
                                             .flatMap(task -> jobExecutorRepository.sendHttpRequest(job.url(), job.timeout(), job.method(), job.body())
                                                     .flatMap(status -> {
                                                         job.setJobExecutionResult(status, task.taskId());
-                                                        return Mono.empty();
+                                                        return Mono.just(job)
+                                                                .flatMap(job1 -> job1.emailNotify() ? notificationRepository.sendEmail(job.email(), task) : Mono.empty());
                                                     }))
                                             .collectList()
                                             .flatMapMany(objects -> Flux.fromIterable(job.getUncommittedChanges()));

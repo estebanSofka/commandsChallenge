@@ -25,6 +25,8 @@ public class JobEventChange implements EventChange {
             job.body = "";
             job.correctExecutions = 0;
             job.incorrectExecutions = 0;
+            job.email = event.getEmail();
+            job.emailNotify = event.isEmailNotify();
         });
         listener((TaskAssigned event) -> {
             var task = new Task(event.getTaskId(), event.getStatus(), event.getExecutionDate());
